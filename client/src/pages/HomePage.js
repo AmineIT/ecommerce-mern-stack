@@ -6,6 +6,7 @@ import FilterByPrice from '../components/FilterByPrice'
 import { filterProducts } from '../utils/APIs'
 import SliderComponent from '../components/Slider'
 import ProductCard from '../components/ProductCard'
+import SearchProducts from '../components/SearchProducts';
 
 const HomePage = () => {
 
@@ -14,7 +15,7 @@ const HomePage = () => {
         price: []
     })
     const [skip, setSkip] = useState(0)
-    const [limit, setLimit] = useState(4)
+    const [limit] = useState(8)
     const [size, setSize] = useState(0)
     const [filtredProducts, setFiltredProducts] = useState([])
     const btnBG = useColorModeValue("gray.900", "#f9f9f9")
@@ -23,6 +24,10 @@ const HomePage = () => {
 
     const handleFilters = (data, filterBy) => {
         setFilters({ ...filters, [filterBy]: data })
+    }
+
+    const handleSearchData = (data) => {
+        setFiltredProducts(data)
     }
 
     useEffect(() => {
@@ -89,9 +94,10 @@ const HomePage = () => {
                     <GridItem
                         gridColumn={["span 3 / auto"]}
                     >
+                        <SearchProducts handleSearchData={handleSearchData} />
                         <ProductCard
                             products={filtredProducts}
-                            title={`(${filtredProducts && filtredProducts.length} Products)`}
+                            title={`${filtredProducts && filtredProducts.length} Products`}
                         />
 
                         {

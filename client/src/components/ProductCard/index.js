@@ -1,32 +1,31 @@
 import React from 'react'
-import { Box, Heading, Flex, Badge, Grid } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
+import { Box, Heading, Flex, Badge, Grid, Button } from '@chakra-ui/react'
 import ShowImage from '../../utils/ShowImage'
 import { BsFillStarFill } from 'react-icons/bs'
 
-const ProductCard = ({ products, title, cardType }) => {
+const ProductCard = ({ products, title }) => {
     return (
         <Box py={["60px"]}>
-            <Heading fontWeight="400" fontSize="32px" mb="32px">{title}</Heading>
+            <Heading fontWeight="400" fontSize="26px" mb="32px">{title}</Heading>
 
             <Grid
-                templateColumns={["repeat(4 ,1fr)"]}
-                gap={10}
+                templateColumns={["repeat(3 ,1fr)"]}
+                gap={5}
             >
                 {products && products.map(product => (
                     <Box key={product._id} maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
-                        <ShowImage item={product} url="product-photo" />
+                        <ShowImage item={product} url="product-photo" width="100%" height="250px" />
                         <Box p="6">
                             <Flex alignItems="baseline">
-                                <Badge borderRadius="full" px="2" colorScheme="teal">{cardType}</Badge>
                                 <Box
                                     color="gray.500"
                                     fontWeight="semibold"
                                     letterSpacing="wide"
                                     fontSize="xs"
                                     textTransform="uppercase"
-                                    ml="2"
                                 >
-                                    {product.sold} Solds &bull; {product.quantity} Quantity
+                                    <Badge borderRadius="full" px="2" colorScheme="teal">{product.sold} Solds</Badge>
                                 </Box>
                             </Flex>
 
@@ -42,12 +41,12 @@ const ProductCard = ({ products, title, cardType }) => {
 
                             <Box>
                                 ${product.price} /
-                        <Box as="span" textDecoration="line-through" >
+                                <Box as="span" textDecoration="line-through" >
                                     ${product.price + 250}
                                 </Box>
                             </Box>
 
-                            <Box d="flex" mt="2" alignItems="center">
+                            <Box d="flex" my="2" alignItems="center">
                                 {Array(5)
                                     .fill("")
                                     .map((_, i) => (
@@ -58,7 +57,24 @@ const ProductCard = ({ products, title, cardType }) => {
                                     ))}
                                 <Box as="span" ml="2" color="gray.600" fontSize="sm">
                                     34 reviews
-                        </Box>
+                                </Box>
+                            </Box>
+                            <Box
+                                color="gray.500"
+                                fontWeight="semibold"
+                                letterSpacing="wide"
+                                fontSize="xs"
+                                textTransform="uppercase"
+                            >
+                                <Badge borderRadius="full" px="2" colorScheme="teal">{product.quantity} in stock</Badge>
+                            </Box>
+                            <Box
+                                mt="16px"
+                            >
+                                <Link style={{ textDecoration: 'none' }} to={`/product/${product._id}`}>
+                                    <Button size="sm" colorScheme="teal" mr="8px">See Product</Button>
+                                </Link>
+                                <Button size="sm" colorScheme="teal" variant="ghost">Add To Cart</Button>
                             </Box>
                         </Box>
                     </Box>

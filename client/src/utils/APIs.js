@@ -1,7 +1,23 @@
 import axios from 'axios'
+import queryString from 'query-string'
 
-export const getProducts = (sortBy, order, limit) => {
-    return axios.get(`/api/product?sortBy=${sortBy}&order=${order}&limit=${limit}`)
+export const getProducts = (params) => {
+
+    let query = queryString.stringify(params)
+
+    return axios.get(`/api/product?${query}`)
+        .then(res => res.data)
+        .catch(error => console.log(error))
+}
+
+export const getSingleProduct = (id) => {
+    return axios.get(`/api/product/${id}`)
+        .then(res => res.data)
+        .catch(error => console.log(error))
+}
+
+export const relatedProducts = (id) => {
+    return axios.get(`/api/product/related-products/${id}`)
         .then(res => res.data)
         .catch(error => console.log(error))
 }

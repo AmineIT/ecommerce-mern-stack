@@ -41,7 +41,7 @@ exports.createProduct = (req, res) => {
 // @access  Public
 exports.productById = (req, res, next, id) => {
 
-    Product.findById(id).exec((error, product) => {
+    Product.findById(id).populate('category').exec((error, product) => {
         if (error || !product) {
             return res.status(400).json({
                 error: 'Product not found!'
@@ -60,9 +60,15 @@ exports.allProducts = (req, res) => {
 
     const sortBy = req.query.sortBy || 'createdAt'
     const order = req.query.order || 'asc'
-    const limit = parseInt(req.query.limit) || 5
+    const limit = parseInt(req.query.limit) || 8
+    let query = {}
+    let { search } = req.query
 
-    Product.find()
+    if (search) {
+        query.name = { $regex: search, $options: 'i' }
+    }
+
+    Product.find(query)
         .select('-photo')
         .populate('category')
         .sort([[sortBy, order]])
@@ -110,9 +116,8 @@ exports.relatedProduct = (req, res) => {
 // @access  Public
 exports.showProduct = (req, res) => {
     req.product.photo = null
-    res.json({
-        product: req.product
-    })
+    const product = req.product
+    res.json(product)
 }
 
 // @desc    Edit Product

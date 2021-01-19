@@ -9,7 +9,7 @@ const SliderComponent = () => {
     const [products, setProducts] = useState([])
 
     const fetchBestSellers = () => {
-        getProducts('createdAt', 'desc', 3)
+        getProducts({ sortBy: 'createdAt', order: 'desc', limit: 3 })
             .then(res => setProducts(res))
             .catch(error => console.log(error))
     }
