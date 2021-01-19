@@ -157,8 +157,8 @@ exports.searchProduct = (req, res) => {
 
     const sortBy = req.query.sortBy || 'createdAt'
     const order = req.query.order || 'asc'
-    const limit = parseInt(req.query.limit) || 5
-    const skip = parseInt(req.query.skip)
+    const limit = parseInt(req.body.limit) || 5
+    const skip = parseInt(req.body.skip)
     let findArgs = {}
 
     for (let key in req.body.filters) {

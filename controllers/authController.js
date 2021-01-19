@@ -10,7 +10,8 @@ exports.signup = (req, res) => {
     user.save((error, user) => {
 
         if (error) return res.status(400).send(error)
-
+        user.hashed_password = undefined
+        user.salt = undefined
         res.send(user)
 
     })
@@ -62,6 +63,6 @@ exports.login = (req, res) => {
 exports.logout = (req, res) => {
     res.clearCookie('token')
     return res.json({
-        message: 'User loged out!'
+        message: 'User logged out!'
     })
 }
